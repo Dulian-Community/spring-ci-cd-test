@@ -57,7 +57,8 @@ class SecurityConfig {
         // 허용 URL
         private val PERMIT_ALL = arrayOf(
             "/api/v1/auth/signup",
-            "/api/v1/auth/signup/send-email-confirm-code"
+            "/api/v1/auth/signup/send-email-confirm-code",
+            "/health-check"
         )
     }
 }
