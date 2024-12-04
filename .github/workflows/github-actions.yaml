@@ -63,29 +63,17 @@ jobs:
                 run: |
                     aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SECURITY_GROUP_NAME }} --protocol tcp --port 22 --cidr ${{steps.ip.outputs.ipv4}}/32
 
-#            -   name: SSH into EC2
-#                uses: appleboy/ssh-action@master
-#                with:
-#                    host: ${{ secrets.AWS_EC2_HOST }}
-#                    username: ${{ secrets.AWS_EC2_USERNAME }}
-#                    key: ${{ secrets.AWS_EC2_SSH_KEY }}
-#                    script: |
-#                            export USER_API_CHANGED="${{ needs.build.outputs.user_api_changed }}"
-#                            export ADMIN_API_CHANGED="${{ needs.build.outputs.admin_api_changed }}"
-#
-#                            if [[ "$USER_API_CHANGED" == "true" ]]; then
-#                                cd /algopuni/user-api
-#                                docker-compose down
-#                                docker-compose pull
-#                                docker-compose up -d
-#                            fi
-#
-#                            if [[ "$ADMIN_API_CHANGED" == "true" ]]; then
-#                                 cd /algopuni/admin-api
-#                                docker-compose down
-#                                docker-compose pull
-#                                docker-compose up -d
-#                            fi
+            -   name: SSH into EC2
+                uses: appleboy/ssh-action@master
+                with:
+                    host: ${{ secrets.AWS_EC2_HOST }}
+                    username: ${{ secrets.AWS_EC2_USERNAME }}
+                    key: ${{ secrets.AWS_EC2_SSH_KEY }}
+                    script: |
+                            aws s3 cp ${{ secrets.AWS_JAR_CP_CMD }}
+                            cd /dulian/jar
+                            docker-compose down
+                            docker-compose up -d
 
             -   name: Remove Github Actions IP from security group
                 run: |
