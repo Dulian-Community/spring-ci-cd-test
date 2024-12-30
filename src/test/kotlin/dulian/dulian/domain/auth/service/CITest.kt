@@ -8,6 +8,10 @@ class CITest:DescribeSpec({
         it("CI 테스트") {
             println("CI 테스트")
         }
+
+        it("fail") {
+            throw Exception()
+        }
     }
 }) {
 }
