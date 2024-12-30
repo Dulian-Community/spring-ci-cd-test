@@ -9,6 +9,7 @@ class CITest:DescribeSpec({
             println("CI 테스트")
         }
 
+
         it("fail") {
             throw Exception()
         }
